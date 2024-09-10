@@ -11,7 +11,6 @@ pipeline {
                 sh 'docker system prune -f'
             }
         }
-        stages {
         stage('Build') {
             steps {
                 script {
