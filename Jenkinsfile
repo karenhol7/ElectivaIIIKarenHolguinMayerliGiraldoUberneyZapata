@@ -2,13 +2,21 @@ pipeline {
     agent any
     environment {
         // Referencia las imágenes ya existentes
-        FRONTEND_IMAGE = 'product_hunt-frontend:latest'
         BACKEND_IMAGE = 'product_hunt-backend:latest'
+        FRONTEND_IMAGE = 'product_hunt-frontend:latest'
     }
     stages {
         stage('Cleanup') {
             steps {
                 sh 'docker system prune -f'
+            }
+        }
+        stages {
+        stage('Build') {
+            steps {
+                script {
+                    docker.build("${BACKEND_IMAGE}", "Backend/")
+                }
             }
         }
         stage('Test Backend') {
