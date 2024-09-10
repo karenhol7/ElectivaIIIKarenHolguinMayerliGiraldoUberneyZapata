@@ -6,6 +6,11 @@ pipeline {
         BACKEND_IMAGE = 'product_hunt-backend:latest'
     }
     stages {
+        stage('Cleanup') {
+            steps {
+                sh 'docker system prune -f'
+            }
+        }
         stage('Test Backend') {
             steps {
                 script {
