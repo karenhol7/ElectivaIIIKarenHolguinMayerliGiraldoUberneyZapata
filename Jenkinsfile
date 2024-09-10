@@ -1,53 +1,35 @@
 pipeline {
     agent any
     environment {
-        // Usa los nombres locales de las imágenes en lugar de un registro
+        // Referencia las imágenes ya existentes
         FRONTEND_IMAGE = 'product_hunt-frontend:latest'
         BACKEND_IMAGE = 'product_hunt-backend:latest'
     }
     stages {
-        stage('Build Images') {
-            parallel {
-                stage('Build Frontend') {
-                    steps {
-                        script {
-                            // Construir la imagen de frontend
-                            docker.build("${FRONTEND_IMAGE}", "Frontend")
-                        }
-                    }
-                }
-                stage('Build Backend') {
-                    steps {
-                        script {
-                            // Construir la imagen de backend
-                            docker.build("${BACKEND_IMAGE}", "Backend")
-                        }
-                    }
-                }
-            }
-        }
-        stage('Test') {
+        stage('Test Backend') {
             steps {
                 script {
-                    // Ejecutar pruebas de Jest en el backend
+                    // Ejecutar pruebas de backend en el contenedor ya existente
                     docker.image("${BACKEND_IMAGE}").inside {
-                        sh 'npm test'  // Asume que tienes "jest" como test runner en tu package.json
+                        sh 'npm test'
                     }
                 }
             }
         }
-        stage('Deploy') {
+        stage('Test Frontend') {
             steps {
                 script {
-                    // Usar Docker Compose para desplegar los contenedores
-                    sh 'docker-compose -f docker-compose.yml up -d'
+                    // Ejecutar pruebas de frontend en el contenedor ya existente
+                    docker.image("${FRONTEND_IMAGE}").inside {
+                        sh 'npm run test'
+                    }
                 }
             }
         }
     }
     post {
         always {
-            // Limpiar recursos no utilizados
+            // Limpiar recursos si es necesario
             sh 'docker system prune -f'
         }
     }
