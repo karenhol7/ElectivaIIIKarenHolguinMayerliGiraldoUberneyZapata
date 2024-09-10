@@ -1,0 +1,171 @@
+/* UserProfile.css */
+.profile-container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-header {
+  text-align: center;
+}
+
+.profile-avatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin-bottom: 20px;
+}
+
+.profile-name {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-stats {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.profile-stat {
+  text-align: center;
+}
+
+.stat-label {
+  font-size: 16px;
+  color: #666;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.stat-value {
+  font-size: 17px;
+  font-weight: bold;
+  color: #333;
+  margin-top: 5px; /* Added some margin at the top */
+}
+
+.follow-button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.follow-button:hover {
+  background-color: #0056b3;
+}
+
+.followed-button {
+  position: relative;
+  padding: 10px 20px;
+  background-color: #fcfcfc;
+  color: #d86161;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  overflow: hidden;
+  border: 1px solid transparent;
+}
+
+.followed-button::after {
+  content: "Unfollow"; /* New text that appears on hover */
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #feb6b0; /* Background color on hover */
+  color: #7f1d1d; /* Text color on hover */
+  line-height: 42px; /* Adjust the line height to the button height to center the text vertically */
+  text-align: center; /* Center the text horizontally */
+  border-radius: 5px; /* Maintain the border-radius of the button */
+  opacity: 0; /* Start as invisible */
+  transition: opacity 0.3s ease; /* Smooth transition for opacity */
+}
+
+.followed-button:hover::after {
+  opacity: 1; /* Make the hover text visible */
+}
+
+.followed-button:hover {
+  color: transparent;
+}
+
+/* Modal styling */
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 999;
+}
+
+.user-products {
+  margin-top: 40px;
+}
+
+.section-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Product grid container */
+.product-grid-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.product-tags {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.product-tag {
+  background: #f0f0f0;
+  border-radius: 5px;
+  padding: 5px 10px;
+  font-size: 12px;
+  color: #333;
+}

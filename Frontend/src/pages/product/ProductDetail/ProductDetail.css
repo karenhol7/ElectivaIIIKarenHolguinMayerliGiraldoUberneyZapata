@@ -1,0 +1,188 @@
+/* ProductDetail.css */
+.container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.product-detail-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.product-info-container {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+}
+
+.product-image-container {
+  flex: 1;
+  max-width: 400px;
+}
+
+.product-image {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  object-fit: cover;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.product-info {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.product-name-detail {
+  font-family: "Roboto", sans-serif;
+  font-size: 32px;
+  font-weight: bold;
+  color: #333333;
+}
+
+.product-description-detail {
+  font-family: "Roboto", sans-serif;
+  font-size: 18px;
+  color: #666666;
+}
+
+.product-rating {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.product-link {
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  color: #007BFF;
+  text-decoration: none;
+  margin-top: 20px;
+  transition: color 0.3s ease;
+}
+
+.product-link:hover {
+  color: #0056b3;
+}
+
+.comments-container {
+  margin-top: 40px;
+}
+
+.comments-title {
+  font-family: "Roboto", sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333333;
+  margin-bottom: 20px;
+}
+
+.comments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.comment {
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.comment-user {
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333333;
+  margin-bottom: 5px;
+}
+
+.comment-content {
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  color: #666666;
+  margin-bottom: 5px;
+}
+
+.comment-rate {
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  color: #999999;
+}
+
+.add-comment-container {
+  margin-top: 40px;
+}
+
+.add-comment-title {
+  border-top: 1px inset #d8e1ec52;
+  font-family: "Roboto", sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333333;
+  margin-bottom: 20px;
+  padding-top: 15px
+}
+
+.add-comment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.comment-textarea {
+  width: 50%;
+  padding: 10px;
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  outline: none;
+
+}
+
+.rating-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.rating-input label {
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  color: #333333;
+}
+
+.rating-input select {
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 100px;
+  outline: none;
+
+}
+
+.submit-button {
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  color: #fff;
+  background-color: rgba(0, 128, 0, 0.747);
+  width: 25%;
+}
+
+.submit-button:hover {
+  background-color: rgba(0, 128, 0, 0.425);
+
+
+}

@@ -1,0 +1,12 @@
+/* Star.css */
+
+.star {
+    font-size: 24px;
+    color: #ccc;
+    cursor: pointer;
+  }
+  
+  .filled {
+    color: #ffc107;
+  }
+  

@@ -1,0 +1,51 @@
+services:
+  backend:
+    container_name: back-costcontrol-nodejs
+    build:
+      context: ./Backend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./Backend:/app
+    depends_on:
+      - mongo
+    networks:
+      - mesias_network
+    environment:
+      MONGO_URI: mongodb://root:example@mongo:27017/Product-hunt?authSource=admin
+
+  frontend:
+    container_name: front-costcontrol-reactjs
+    build:
+      context: ./Frontend
+      dockerfile: Dockerfile
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./Frontend:/app
+    depends_on:
+      - backend
+    networks:
+      - mesias_network
+
+  mongo:
+    container_name: database-costcontrol-mongo
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - mesias_network
+
+volumes:
+  mongo_data:
+
+networks:
+  mesias_network:
+    driver: bridge
