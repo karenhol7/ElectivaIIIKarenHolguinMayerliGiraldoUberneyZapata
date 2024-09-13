@@ -5,8 +5,9 @@ pipeline {
             steps {
                 script {
                     docker.image('product_hunt-backend:latest').inside() {
-                        // Ejecutar la instalación de dependencias
-                        sh 'npm install'
+                        dir('Backend') {
+                            sh 'npm install'
+                        }
                     }
                 }
             }
@@ -15,8 +16,9 @@ pipeline {
             steps {
                 script {
                     docker.image('product_hunt-backend:latest').inside() {
-                        // Ejecutar pruebas de backend
-                        sh 'npm run test'
+                        dir('Backend') {
+                            sh 'npm run test'
+                        }
                     }
                 }
             }
