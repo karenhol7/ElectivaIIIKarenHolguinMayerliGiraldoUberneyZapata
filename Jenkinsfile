@@ -3,12 +3,16 @@ pipeline{
     stages{
         stage('Dependencies'){
             steps{
-                sh 'npm install ./Backend'
+                docker.image('product_hunt-backend:latest').inside{
+                    sh 'npm install'
+                }
             }
         }
         stage('Run Jest Test'){
             steps{
-                sh 'npm run test ./Backend'
+                docker.image('product_hunt-backend:latest').inside{
+                    sh 'npm run test'
+                }
             }
         }
     }
