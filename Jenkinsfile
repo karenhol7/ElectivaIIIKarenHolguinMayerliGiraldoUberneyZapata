@@ -16,6 +16,7 @@ pipeline {
         stage('Run Jest Test') {
             steps {
                 script {
+                    echo 'Running Tests...'
                     docker.image('product_hunt-backend:latest').inside() {
                         dir('Backend') {
                             sh 'npm run test'
