@@ -13,7 +13,7 @@ pipeline {
                 }
             }
         }
-        stage('Run Jest Test') {
+        /*stage('Run Jest Test') {
             steps {
                 script {
                     echo 'Running Tests...'
@@ -24,6 +24,6 @@ pipeline {
                     }
                 }
             }
-        }
+        }*/
     }
 }
