@@ -3,6 +3,7 @@ pipeline {
     stages {
         stage('Dependencies') {
             steps {
+                echo 'Installing dependencies...'
                 script {
                     docker.image('product_hunt-backend:latest').inside() {
                         dir('Backend') {
