@@ -1,4 +1,4 @@
-/*pipeline {
+pipeline {
     agent any
     stages {
         stage('Dependencies') {
@@ -24,22 +24,7 @@
                     }
                 }
             }
-        }
+        }*/
     }
 }
-*/
-pipeline {
-    agent any
-    stages {
-        stage('Dependencies') {
-            steps {
-                echo 'Installing dependencies...'
-                script {
-                    dir('Backend') {
-                        sh 'npm install'
-                    }
-                }
-            }
-        }
-    }
-}
+
