@@ -94,7 +94,7 @@ async function productByFollowers(req, res) {
     };
 
     const followerProducts = await getProductsByFollowersUseCase(userId, searchProduct);
-    return res.status(200).json(followerProducts);
+    return res.status(200).json({products: followerProducts});
   } catch (error) {
     return res.status(500).json({ message: 'Error getting products from followers', error: error.message });
   }

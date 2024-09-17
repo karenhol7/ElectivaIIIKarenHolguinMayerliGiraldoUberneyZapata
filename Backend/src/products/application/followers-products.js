@@ -21,7 +21,7 @@ async function getProductsByFollowersUseCase(userId, searchProduct) {
   
       return followerProducts;
     } catch (error) {
-      throw new Error('Error getting products by followers');
+      return error;
     }
   }
 

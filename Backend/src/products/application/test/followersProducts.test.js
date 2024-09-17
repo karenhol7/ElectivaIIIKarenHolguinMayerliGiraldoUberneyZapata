@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { getProductsByFollowersUseCase } = require('../followers-products');
 const { getProductRepositoryByUserId, getProductRepositoryByCriteria } = require('../../infrastructure/productReposiroty');
-const { getFollowersRepository } = require('../../../follows/infrastructure/followRepository');
+const { getFollowingsRepository } = require('../../../follows/infrastructure/followRepository');
 
 jest.mock('../../infrastructure/productReposiroty', () => ({
   getProductRepositoryByUserId: jest.fn(),
@@ -9,7 +9,7 @@ jest.mock('../../infrastructure/productReposiroty', () => ({
 }));
 
 jest.mock('../../../follows/infrastructure/followRepository', () => ({
-  getFollowersRepository: jest.fn()
+  getFollowingsRepository: jest.fn()
 }));
 
 describe('getProductsByFollowersUseCase', () => {
@@ -29,62 +29,137 @@ describe('getProductsByFollowersUseCase', () => {
       { id: 'product1', name: 'Test Product 1', userId: new mongoose.Types.ObjectId() },
       { id: 'product2', name: 'Test Product 2', userId: new mongoose.Types.ObjectId() }
     ];
-    const followerIds = [
-      { _id: products[0].userId },
-      { _id: products[1].userId }
+    const followers = [
+      {
+        followedUserId: {
+          _id: products[0].userId,
+          userName: 'Follower 1'
+        }
+      },
+      {
+        followedUserId: {
+          _id: products[1].userId,
+          userName: 'Follower 2'
+        }
+      }
     ];
 
-    getFollowersRepository.mockResolvedValue(followerIds);
+    getFollowingsRepository.mockResolvedValue(followers);
     getProductRepositoryByCriteria.mockResolvedValue(products);
 
     const result = await getProductsByFollowersUseCase(userId, searchProduct);
 
-    expect(result).toEqual(products);
-    expect(getFollowersRepository).toHaveBeenCalledWith(userId);
-    expect(getProductRepositoryByCriteria).toHaveBeenCalledWith(searchProduct);
+    expect(result).toEqual([
+      {
+        user: {
+          id: products[0].userId,
+          name: 'Follower 1',
+          products: products
+        }
+      },
+      {
+        user: {
+          id: products[1].userId,
+          name: 'Follower 2',
+          products: products
+        }
+      }
+    ]);
+    expect(getFollowingsRepository).toHaveBeenCalledWith(userId);
+    expect(getProductRepositoryByCriteria).toHaveBeenCalledWith({ ...searchProduct, userId: followers[0].followedUserId._id });
+    expect(getProductRepositoryByCriteria).toHaveBeenCalledWith({ ...searchProduct, userId: followers[1].followedUserId._id });
   });
 
   it('should return products by followers if searchProduct is not provided', async () => {
     const userId = new mongoose.Types.ObjectId();
     const searchProduct = null;
-    const followerIds = [
-      { _id: new mongoose.Types.ObjectId() },
-      { _id: new mongoose.Types.ObjectId() }
+    const followers = [
+      {
+        followedUserId: {
+          _id: new mongoose.Types.ObjectId(),
+          userName: 'Follower 1'
+        }
+      },
+      {
+        followedUserId: {
+          _id: new mongoose.Types.ObjectId(),
+          userName: 'Follower 2'
+        }
+      }
     ];
     const products = [
-      [{ id: 'product1', name: 'Test Product 1', userId: followerIds[0]._id }],
-      [{ id: 'product2', name: 'Test Product 2', userId: followerIds[1]._id }]
+      { id: 'product1', name: 'Test Product 1', userId: followers[0].followedUserId._id },
+      { id: 'product2', name: 'Test Product 2', userId: followers[1].followedUserId._id }
     ];
 
-    getFollowersRepository.mockResolvedValue(followerIds);
-    getProductRepositoryByUserId.mockResolvedValueOnce(products[0]).mockResolvedValueOnce(products[1]);
+    getFollowingsRepository.mockResolvedValue(followers);
+    getProductRepositoryByUserId.mockResolvedValueOnce([products[0]]).mockResolvedValueOnce([products[1]]);
 
     const result = await getProductsByFollowersUseCase(userId, searchProduct);
 
-    expect(result).toEqual(products.flat());
-    expect(getFollowersRepository).toHaveBeenCalledWith(userId);
-    expect(getProductRepositoryByUserId).toHaveBeenCalledWith(followerIds[0]._id);
-    expect(getProductRepositoryByUserId).toHaveBeenCalledWith(followerIds[1]._id);
+    expect(result).toEqual([
+      {
+        user: {
+          id: followers[0].followedUserId._id,
+          name: 'Follower 1',
+          products: [products[0]]
+        }
+      },
+      {
+        user: {
+          id: followers[1].followedUserId._id,
+          name: 'Follower 2',
+          products: [products[1]]
+        }
+      }
+    ]);
+    expect(getFollowingsRepository).toHaveBeenCalledWith(userId);
+    expect(getProductRepositoryByUserId).toHaveBeenCalledWith(followers[0].followedUserId._id);
+    expect(getProductRepositoryByUserId).toHaveBeenCalledWith(followers[1].followedUserId._id);
   });
 
   it('should return an empty array if no followers have products', async () => {
     const userId = new mongoose.Types.ObjectId();
     const searchProduct = null;
-    const followerIds = [
-      { _id: new mongoose.Types.ObjectId() },
-      { _id: new mongoose.Types.ObjectId() }
+    const followers = [
+      {
+        followedUserId: {
+          _id: new mongoose.Types.ObjectId(),
+          userName: 'Follower 1'
+        }
+      },
+      {
+        followedUserId: {
+          _id: new mongoose.Types.ObjectId(),
+          userName: 'Follower 2'
+        }
+      }
     ];
-    const products = [[], []];
 
-    getFollowersRepository.mockResolvedValue(followerIds);
-    getProductRepositoryByUserId.mockResolvedValueOnce(products[0]).mockResolvedValueOnce(products[1]);
+    getFollowingsRepository.mockResolvedValue(followers);
+    getProductRepositoryByUserId.mockResolvedValueOnce([]).mockResolvedValueOnce([]);
 
     const result = await getProductsByFollowersUseCase(userId, searchProduct);
 
-    expect(result).toEqual([]);
-    expect(getFollowersRepository).toHaveBeenCalledWith(userId);
-    expect(getProductRepositoryByUserId).toHaveBeenCalledWith(followerIds[0]._id);
-    expect(getProductRepositoryByUserId).toHaveBeenCalledWith(followerIds[1]._id);
+    expect(result).toEqual([
+      {
+        user: {
+          id: followers[0].followedUserId._id,
+          name: 'Follower 1',
+          products: []
+        }
+      },
+      {
+        user: {
+          id: followers[1].followedUserId._id,
+          name: 'Follower 2',
+          products: []
+        }
+      }
+    ]);
+    expect(getFollowingsRepository).toHaveBeenCalledWith(userId);
+    expect(getProductRepositoryByUserId).toHaveBeenCalledWith(followers[0].followedUserId._id);
+    expect(getProductRepositoryByUserId).toHaveBeenCalledWith(followers[1].followedUserId._id);
   });
 
   it('should handle errors and return the error', async () => {
@@ -92,11 +167,11 @@ describe('getProductsByFollowersUseCase', () => {
     const searchProduct = null;
     const error = new Error('Something went wrong');
 
-    getFollowersRepository.mockRejectedValue(error);
+    getFollowingsRepository.mockRejectedValue(error);
 
     const result = await getProductsByFollowersUseCase(userId, searchProduct);
 
     expect(result).toBe(error);
-    expect(getFollowersRepository).toHaveBeenCalledWith(userId);
+    expect(getFollowingsRepository).toHaveBeenCalledWith(userId);
   });
 });

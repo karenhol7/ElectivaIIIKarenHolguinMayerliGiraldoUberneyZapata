@@ -112,14 +112,14 @@ describe('Product Controller', () => {
   it('should get product details', async () => {
     const product = { id: 'testProductId', name: 'Test Product' };
     getProductDetaislUseCase.mockResolvedValue(product);
-
+  
     const response = await request(app)
       .get(`/product/${product.id}`);
-
+  
     expect(response.status).toBe(200);
     expect(response.body.product).toEqual(product);
     expect(getProductDetaislUseCase).toHaveBeenCalledWith(product.id);
-  });
+  });  
 
   it('should search products', async () => {
     const products = [{ id: 'testProductId', name: 'Test Product' }];
