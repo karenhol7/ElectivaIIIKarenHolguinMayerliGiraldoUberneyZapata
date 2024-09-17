@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('Install dependencies') {
       steps {
-        echo 'Installing dependencies...'
+        echo '***Installing dependencies***'
         bat 'npm install ./Backend'
         bat 'npm install ./Frontend'
       }
