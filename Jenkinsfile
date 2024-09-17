@@ -9,7 +9,7 @@ pipeline {
         bat 'npm install ./Frontend'
       }
     }
-   
+  
     stage('Run Jest Tests') {
       steps {
         echo 'Running jests tests...'
