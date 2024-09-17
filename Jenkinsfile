@@ -19,7 +19,7 @@ pipeline {
  
     stage('Build containers') {
       steps {
-        echo 'Building Docker containers...'
+        echo '***Building Docker containers***'
         bat 'docker compose up -d --build'
       }
     }
