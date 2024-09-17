@@ -1,30 +1,27 @@
 pipeline {
-    agent any
-    stages {
-        stage('Dependencies') {
-            steps {
-                echo 'Installing dependencies...'
-                script {
-                    docker.image('product_hunt-backend:latest').inside() {
-                        dir('Backend') {
-                            sh 'npm install'
-                        }
-                    }
-                }
-            }
-        }
-        /*stage('Run Jest Test') {
-            steps {
-                script {
-                    echo 'Running Tests...'
-                    docker.image('product_hunt-backend:latest').inside() {
-                        dir('Backend') {
-                            sh 'npm run test'
-                        }
-                    }
-                }
-            }
-        }*/
+  agent any
+ 
+  stages {
+    stage('Install dependencies') {
+      steps {
+        echo 'Installing dependencies...'
+        bat 'npm install ./Backend'
+        bat 'npm install ./Frontend'
+      }
     }
+   
+    stage('Run Jest Tests') {
+      steps {
+        echo 'Running jests tests...'
+        bat 'npm --prefix ./Backend run test'
+      }
+    }
+ 
+    stage('Build containers') {
+      steps {
+        echo 'Building Docker containers...'
+        bat 'docker compose up -d --build'
+      }
+    }
+  }
 }
-
