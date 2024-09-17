@@ -12,7 +12,7 @@ pipeline {
   
     stage('Run Jest Tests') {
       steps {
-        echo 'Running jests tests...'
+        echo '***Running jests tests***'
         bat 'npm --prefix ./Backend run test'
       }
     }
